@@ -9,9 +9,9 @@ from torch.utils.data import DataLoader
 def main():
     DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     print("now system use ", DEVICE)
-    BATCH_SIZE = 8
+    BATCH_SIZE = 16
     lr=0.0001
-    epochs = 5
+    epochs =  12
     raw_train = OxfordIIITPet(root="./data", split="trainval", target_types="segmentation", download=True)
     raw_val = OxfordIIITPet(root="./data", split="test", target_types="segmentation", download=True)
     train_dataset = PetDataset(raw_train, transform = train_transform)
