@@ -9,15 +9,15 @@ from torch.utils.data import DataLoader
 def main():
     DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     print("now system use ", DEVICE)
-    BATCH_SIZE = 16
+    BATCH_SIZE = 32
     lr=0.0001
-    epochs =  12
+    epochs =  30
     raw_train = OxfordIIITPet(root="./data", split="trainval", target_types="segmentation", download=True)
     raw_val = OxfordIIITPet(root="./data", split="test", target_types="segmentation", download=True)
     train_dataset = PetDataset(raw_train, transform = train_transform)
     val_dataset = PetDataset(raw_val, transform = val_transform)
-    train_loader = DataLoader(train_dataset, BATCH_SIZE, shuffle =True, num_workers= 0, pin_memory=True)
-    val_loader = DataLoader(val_dataset,BATCH_SIZE,shuffle=False,num_workers=0, pin_memory= True)
+    train_loader = DataLoader(train_dataset, BATCH_SIZE, shuffle =True, num_workers= 4, pin_memory=True)
+    val_loader = DataLoader(val_dataset,BATCH_SIZE,shuffle=False,num_workers=4, pin_memory= True)
 
     model = UNet(num_classes=3,depth=5,merge_mode='concat').to(DEVICE)
     criterion = nn.CrossEntropyLoss()
