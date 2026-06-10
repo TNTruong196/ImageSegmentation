@@ -31,7 +31,6 @@ def main():
         val_loss = 0
         total_val = 0
         model.train()
-        count = 1
         for inputs, labels in train_loader:
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
@@ -41,13 +40,10 @@ def main():
             optimizer.step()
             train_loss+=loss.item()*inputs.size(0)
             total_train+= inputs.size(0)
-            print(f"{count*BATCH_SIZE}/{len(train_dataset)}")
-            count+=1
         
         epoch_train_loss = train_loss/total_train
         model.eval()
         val_loss=0.0
-        count = 1
         with torch.no_grad():
             for inputs, labels in val_loader:
                 inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
@@ -55,8 +51,6 @@ def main():
                 loss = criterion(outputs, labels)
                 val_loss += loss.item()*inputs.size(0)
                 total_val += inputs.size(0)
-                print(f"{count*BATCH_SIZE}/{len(val_dataset)}")
-                count+=1
         epoch_val_loss = val_loss/total_val
 
         print(f"epoch {i+1}/{epochs} | train_loss: {epoch_train_loss:.4f} | val_loss: {epoch_val_loss:.4}")
